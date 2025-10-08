@@ -9,13 +9,13 @@ import {
 import { renderPaymentSummary } from "./paymentSummary.js";
 import { renderCheckoutHeader } from "./checkoutHeader.js";
 
-export function renderOrderSummary() {
+export async function renderOrderSummary() {
   let cartSummaryHTML = "";
 
-  cart.cartItems.forEach((cartItem) => {
+  for (const cartItem of cart.cartItems) {
     const productId = cartItem.productId;
 
-    const matchingProduct = getProduct(productId);
+    const matchingProduct = await getProduct(productId);
 
     const deliveryOptionId = cartItem.deliveryOptionId;
 
@@ -76,7 +76,7 @@ export function renderOrderSummary() {
       </div>
     </div>
     `;
-  });
+  }
 
   function deliveryOptionsHTML(matchingProduct, cartItem) {
     let html = "";
