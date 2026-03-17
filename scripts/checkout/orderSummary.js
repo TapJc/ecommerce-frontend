@@ -48,7 +48,7 @@ export async function renderOrderSummary() {
             <span>
               Quantity: <span class="quantity-label">${cartItem.quantity}</span>
             </span>
-            <span class="update-quantity-link link-primary js-update-quality-link" data-product-id="${
+            <span class="update-quantity-link link-primary js-update-quantity-link" data-product-id="${
               matchingProduct.id
             }">
               Update
@@ -59,9 +59,7 @@ export async function renderOrderSummary() {
             <span class="save-quantity-link link-primary js-save-quantity-link" data-product-id="${
               matchingProduct.id
             }">Save</span>
-            <span class="delete-quantity-link link-primary js-delete-link js-delete-link-${
-              matchingProduct.id
-            }" data-product-id="${matchingProduct.id}">
+            <span class="delete-quantity-link link-primary js-delete-link" data-product-id="${matchingProduct.id}">
               Delete
             </span>
           </div>
@@ -78,6 +76,7 @@ export async function renderOrderSummary() {
     `;
   }
 
+  // Builds the HTML for all delivery options for a specific cart item, marking the currently selected option
   function deliveryOptionsHTML(matchingProduct, cartItem) {
     let html = "";
 
@@ -91,16 +90,12 @@ export async function renderOrderSummary() {
       const isChecked = deliveryOption.id === cartItem.deliveryOptionId;
 
       html += `
-      <div class="delivery-option js-delivery-option 
-      js-delivery-option-${matchingProduct.id}-${deliveryOption.id}" 
+      <div class="delivery-option js-delivery-option" 
       data-product-id="${matchingProduct.id}" 
       data-delivery-option-id="${deliveryOption.id}">
             <input type="radio"
               ${isChecked ? "checked" : ""}
               class="delivery-option-input 
-              js-delivery-option-input-${matchingProduct.id}-${
-        deliveryOption.id
-      }"
               name="delivery-option-${matchingProduct.id}">
             <div>
               <div class="delivery-option-date">
@@ -119,7 +114,8 @@ export async function renderOrderSummary() {
 
   document.querySelector(".js-order-summary").innerHTML = cartSummaryHTML;
 
-  document.querySelectorAll(".js-update-quality-link").forEach((link) => {
+  // Shows the quantity input box for the specific cart item when "Update" is clicked
+  document.querySelectorAll(".js-update-quantity-link").forEach((link) => {
     link.addEventListener("click", () => {
       const productId = link.dataset.productId;
 
@@ -131,6 +127,7 @@ export async function renderOrderSummary() {
     });
   });
 
+  // Saves the new quantity, re-renders the page, and resets the input box when "Save" is clicked
   document.querySelectorAll(".js-save-quantity-link").forEach((link) => {
     link.addEventListener("click", () => {
       const productId = link.dataset.productId;
@@ -154,6 +151,7 @@ export async function renderOrderSummary() {
     });
   });
 
+  // Removes the cart item from the cart and the page when "Delete" is clicked
   document.querySelectorAll(".js-delete-link").forEach((link) => {
     link.addEventListener("click", () => {
       const productId = link.dataset.productId;
@@ -170,6 +168,7 @@ export async function renderOrderSummary() {
     });
   });
 
+  // Updates the delivery option for the cart item and re-renders the page when a delivery option is clicked
   document.querySelectorAll(".js-delivery-option").forEach((element) => {
     element.addEventListener("click", () => {
       const { productId, deliveryOptionId } = element.dataset;
