@@ -35,7 +35,7 @@ class Cart {
       cartQuantity += cartItem.quantity;
     });
 
-    document.querySelector(`${className}`).innerHTML = cartQuantity;
+    document.querySelector(className).innerHTML = cartQuantity;
   }
   addToCart(productId, quantity) {
     let matchingItem;
@@ -90,4 +90,3 @@ class Cart {
 }
 
 export const cart = new Cart("cart-oop");
-//const businessCart = new Cart("cart-business");

@@ -2,33 +2,29 @@ import { cart } from "../data/cart-class.js";
 import { fetchProducts } from "../data/products.js";
 
 // Keep track of the active timeout ID between multiple “Add to Cart” clicks.
-let setTimeoutId;
+let setTimeoutIds = {};
 
-function showAddedMessage(productId, currentTimeoutId) {
+// Shows the "Added" confirmation message for 2 seconds.
+// Resets the timer if the button is clicked again before it disappears.
+function showAddedMessage(productId) {
   const addedMessage = document.querySelector(`.js-added-to-cart-${productId}`);
   addedMessage.classList.add("show-added-to-cart");
 
-  clearTimeout(currentTimeoutId);
+  clearTimeout(setTimeoutIds[productId]);
 
-  currentTimeoutId = setTimeout(() => {
+  setTimeoutIds[productId] = setTimeout(() => {
     addedMessage.classList.remove("show-added-to-cart");
   }, 2000);
-
-  return currentTimeoutId;
 }
 
-// Main async function to render products
 async function renderProducts() {
   const products = await fetchProducts();
 
-  // Update car quantity initially
   cart.updateCartQuantity(".js-cart-quantity");
 
-  // Build HTML
   let productHTML = "";
 
   products.forEach((product) => {
-    //console.log(product.constructor.name, product.rating);
     productHTML += ` 
           <div class="product-container">
             <div class="product-image-container">
@@ -73,7 +69,7 @@ async function renderProducts() {
 
             <div class="added-to-cart js-added-to-cart-${product.id}">
               <img src="images/icons/checkmark.png">
-              Added
+              Added to Cart
             </div>
 
             <button class="add-to-cart-button button-primary js-add-to-cart" data-product-id = "${
@@ -86,6 +82,8 @@ async function renderProducts() {
 
   document.querySelector(".js-products-grid").innerHTML = productHTML;
 
+  // On "Add to Cart" click, add the product and quantity to the cart,
+  // show the "Added" message, and update the navbar cart quantity.
   document.querySelectorAll(".js-add-to-cart").forEach((button) => {
     button.addEventListener("click", () => {
       const { productId } = button.dataset;
@@ -94,11 +92,10 @@ async function renderProducts() {
       );
 
       cart.addToCart(productId, quantity);
-      setTimeoutId = showAddedMessage(productId, setTimeoutId);
+      showAddedMessage(productId);
       cart.updateCartQuantity(".js-cart-quantity");
     });
   });
 }
 
-// Call the function
 renderProducts();

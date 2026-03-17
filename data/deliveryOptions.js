@@ -42,8 +42,7 @@ export function calculateDeliveryDate(deliveryOption) {
   let remainingDays = deliveryOption.deliveryDays;
 
   while (remainingDays > 0) {
-    let date = deliveryDate.add(1, "days");
-    deliveryDate = date;
+    deliveryDate = deliveryDate.add(1, "days");
 
     if (!isWeekend(deliveryDate)) {
       remainingDays--;
