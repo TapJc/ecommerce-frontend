@@ -1,4 +1,4 @@
-import { cart } from "../data/cart-class.js";
+import { cart } from "../data/cart.js";
 import { fetchProducts } from "../data/products.js";
 
 // Keep track of the active timeout ID between multiple “Add to Cart” clicks.

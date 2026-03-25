@@ -1,5 +1,5 @@
 import { formatCurrency } from "../scripts/utils/money.js";
-export class Product {
+class Product {
   id;
   image;
   name;
@@ -29,7 +29,7 @@ export class Product {
   }
 }
 
-export class Clothing extends Product {
+class Clothing extends Product {
   sizeChartLink;
 
   constructor(productDetails) {
@@ -46,7 +46,7 @@ export class Clothing extends Product {
   }
 }
 
-export class Appliance extends Product {
+class Appliance extends Product {
   instructionsLink;
   warrantyLink;
 
@@ -90,6 +90,19 @@ export async function fetchProducts() {
 
 // Get single product by id
 export async function getProduct(productId) {
-  const products = await fetchProducts();
-  return products.find((product) => product.id === Number(productId));
+  try {
+    const response = await fetch(`http://localhost:8080/api/products/${productId}`)
+    const data = await response.json();
+    
+    if (data.type === "clothing") {
+      return new Clothing(data);
+    } else if (data.type === "appliance") {
+      return new Appliance(data);
+    } else {
+      return new Product(data);
+    }
+  } catch (error) {
+    console.error("Error fetching product:", error);
+    return [];
+  }
 }

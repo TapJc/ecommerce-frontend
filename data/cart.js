@@ -58,6 +58,10 @@ class Cart {
 
     this.#saveToStorage();
   }
+  clearCart() {
+    this.cartItems = [];
+    this.#saveToStorage();
+  }
   removeFromCart(productId) {
     const newCart = [];
 
@@ -89,4 +93,4 @@ class Cart {
   }
 }
 
-export const cart = new Cart("cart-oop");
+export const cart = new Cart("cart-items");
