@@ -24,9 +24,7 @@ export async function renderOrderSummary() {
     const dateString = calculateDeliveryDate(deliveryOption);
 
     cartSummaryHTML += `
-    <div class="cart-item-container js-cart-item-container js-cart-item-container-${
-      matchingProduct.id
-    }">
+    <div class="cart-item-container js-cart-item-container js-cart-item-container-${matchingProduct.id}">
       <div class="delivery-date">
         Delivery date: ${dateString}
       </div>
@@ -42,23 +40,17 @@ export async function renderOrderSummary() {
           <div class="product-price js-product-price-${matchingProduct.id}">
             ${matchingProduct.getPrice()}
           </div>
-          <div class="product-quantity js-product-quantity-${
-            matchingProduct.id
-          }">
+          <div class="product-quantity js-product-quantity-${matchingProduct.id}">
             <span>
               Quantity: <span class="quantity-label">${cartItem.quantity}</span>
             </span>
-            <span class="update-quantity-link link-primary js-update-quantity-link" data-product-id="${
-              matchingProduct.id
-            }">
+            <span class="update-quantity-link link-primary js-update-quantity-link" data-product-id="${matchingProduct.id}">
               Update
             </span>
-            <input class="quantity-input js-quantity-input-${
-              matchingProduct.id
-            }">
-            <span class="save-quantity-link link-primary js-save-quantity-link" data-product-id="${
-              matchingProduct.id
-            }">Save</span>
+            <input class="quantity-input js-quantity-input-${matchingProduct.id}">
+            <span class="save-quantity-link link-primary js-save-quantity-link" data-product-id="${matchingProduct.id}">
+              Save
+            </span>
             <span class="delete-quantity-link link-primary js-delete-link" data-product-id="${matchingProduct.id}">
               Delete
             </span>

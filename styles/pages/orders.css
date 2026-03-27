@@ -135,6 +135,32 @@
   margin-bottom: 8px;
 }
 
+.product-purchased {
+  display: flex;
+  align-items: center;
+  gap: 10px
+}
+
+.bought-product {
+  color: rgb(6, 125, 98);
+  font-size: 16px;
+
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+
+  opacity: 0;
+}
+
+.show-bought-product {
+  opacity: 1;
+}
+
+.bought-product img {
+  height: 20px;
+  margin-right: 5px;
+}
+
 .buy-again-button {
   font-size: 15px;
   width: 140px;
