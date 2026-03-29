@@ -89,7 +89,7 @@ export async function renderPaymentSummary() {
           "Content-Type": "application/json" // Tell the server we're sending JSON
           },
           body: JSON.stringify({
-            orderDate: dayjs().format("dddd, MMMM D"),
+            orderDate: dayjs().format("MMMM D, YYYY"),
             totalPrice: formatCurrency(totalCents)
           })
         });
@@ -103,7 +103,7 @@ export async function renderPaymentSummary() {
         // If any single item fails, the entire order is aborted via the catch block
         await Promise.all(cart.cartItems.map(async (cartItem) => {
           const deliveryOption = getDeliveryOption(cartItem.deliveryOptionId);
-          const arrivalDate = calculateDeliveryDate(deliveryOption);
+          const arrivalDate = calculateDeliveryDate(deliveryOption).format("MMMM D");
 
           const itemResponse = await fetch(`http://localhost:8080/api/orders/${order.id}/items?productId=${cartItem.productId}`, {
             method: "POST",

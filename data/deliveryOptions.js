@@ -49,7 +49,5 @@ export function calculateDeliveryDate(deliveryOption) {
     }
   }
 
-  const dateString = deliveryDate.format("dddd, MMMM D");
-
-  return dateString;
+  return deliveryDate;
 }
