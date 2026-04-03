@@ -98,6 +98,15 @@ export async function renderOrderSummary() {
     `;
   }
 
+  // If cart is empty, prints an empty cart image
+  if (!cart.cartItems.length) {
+    cartSummaryHTML = `
+        <div class="cart-item-container empty-cart-container"> 
+          <img class="empty-cart-image" src="images/empty-cart.png">
+        </div>
+    `;
+  }
+
   document.querySelector(".js-order-summary").innerHTML = cartSummaryHTML;
 
   // Shows the quantity input box for the specific cart item when "Update" is clicked

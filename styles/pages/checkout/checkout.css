@@ -53,6 +53,16 @@
   margin-bottom: 12px;
 }
 
+.empty-cart-container {
+  display: flex;
+  justify-content: center;
+}
+
+.empty-cart-image {
+  max-width: 100%;
+  max-height: 340px;
+}
+
 .is-editing-quantity .quantity-label {
   display: none;
 }

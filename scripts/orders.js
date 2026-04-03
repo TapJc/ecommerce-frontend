@@ -16,9 +16,51 @@ function showAddedMessage(productId, orderId) {
   }, 2000)
 }
 
+function orderDetailsHTML(orderItems, orderId) {
+  let html = "";
+  
+  orderItems.forEach(item => {
+      html += `
+          <div class="product-image-container">
+            <img src="${item.product.image}">
+          </div>
+
+          <div class="product-details">
+            <div class="product-name">
+              ${item.product.name}
+            </div>
+            <div class="product-delivery-date">
+              Arriving on: ${item.arrivalDate}
+            </div>
+            <div class="product-quantity">
+              Quantity: ${item.quantity}
+            </div>
+
+            <div class="product-purchased">
+              <button class="buy-again-button button-primary js-buy-again" data-product-id="${item.product.id}" data-order-id="${orderId}">
+                <img class="buy-again-icon" src="images/icons/buy-again.png">
+                <span class="buy-again-message">Buy it again</span>
+              </button>
+              <div class="bought-product js-bought-product-${orderId}-${item.product.id}">
+                <img src="images/icons/checkmark.png">
+                Added to Cart
+              </div>
+            </div>
+          </div>
+
+          <div class="product-actions">
+            <a href="tracking.html">
+              <button class="track-package-button button-secondary js-track-package" data-item-info='${JSON.stringify(item)}'>
+              Track package
+              </button>
+            </a>
+          </div>`;
+  })
+  return html;
+}
+
 async function renderOrders() {
   const orders = await fetchOrders();
-  
   cart.updateCartQuantity(".js-cart-quantity");
 
   let orderHTML = "";
@@ -50,47 +92,13 @@ async function renderOrders() {
           </div>`;
     });
 
-  function orderDetailsHTML(orderItems, orderId) {
-    let orderDetailsHTML = "";
-    
-    orderItems.forEach(item => {
-        orderDetailsHTML += `
-            <div class="product-image-container">
-              <img src="${item.product.image}">
-            </div>
-
-            <div class="product-details">
-              <div class="product-name">
-                ${item.product.name}
-              </div>
-              <div class="product-delivery-date">
-                Arriving on: ${item.arrivalDate}
-              </div>
-              <div class="product-quantity">
-                Quantity: ${item.quantity}
-              </div>
-
-              <div class="product-purchased">
-                <button class="buy-again-button button-primary js-buy-again" data-product-id="${item.product.id}" data-order-id="${orderId}">
-                  <img class="buy-again-icon" src="images/icons/buy-again.png">
-                  <span class="buy-again-message">Buy it again</span>
-                </button>
-                <div class="bought-product js-bought-product-${orderId}-${item.product.id}">
-                  <img src="images/icons/checkmark.png">
-                  Added to Cart
-                </div>
-              </div>
-            </div>
-
-            <div class="product-actions">
-              <a href="tracking.html">
-                <button class="track-package-button button-secondary js-track-package" data-item-info='${JSON.stringify(item)}'>
-                Track package
-                </button>
-              </a>
-            </div>`;
-    })
-    return orderDetailsHTML;
+  // If no orders, then prints a no order image 
+  if (!orders.length) {
+    orderHTML = `
+          <div class="no-order-container">
+            <img class="no-order-image" src="images/no-order.png">
+          </div>
+    `;
   }
 
   document.querySelector(".js-orders-grid").innerHTML = orderHTML;
