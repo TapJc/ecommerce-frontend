@@ -1,7 +1,9 @@
-import { fetchOrders } from "../data/purchases.js";
 import { cart } from "../data/cart.js";
+import { fetchOrders } from "../data/purchases.js";
+import { setupSearch } from "./utils/search.js";
 
 let setTimeOutIds = {};
+let orders = [];
 
 function showAddedMessage(productId, orderId) {
   const addedMessage = document.querySelector(`.js-bought-product-${orderId}-${productId}`);
@@ -59,11 +61,16 @@ function orderDetailsHTML(orderItems, orderId) {
   return html;
 }
 
-async function renderOrders() {
-  const orders = await fetchOrders();
+async function loadOrders() {
   cart.updateCartQuantity(".js-cart-quantity");
+  orders = await fetchOrders();
 
+  renderOrders(orders);
+}
+
+function renderOrders(orders) {
   let orderHTML = "";
+
   orders.forEach(order => {
     orderHTML += `
           <div class="order-container">
@@ -121,4 +128,7 @@ async function renderOrders() {
   })
 }
 
-renderOrders();
+loadOrders();
+setupSearch((searchResults, query) => {
+  (searchResults.length > 0) ? window.location.href = `amazon.html?query=${query}` : renderOrders(orders);
+});

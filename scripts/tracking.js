@@ -1,9 +1,16 @@
 import { cart } from "../data/cart.js";
+import { setupSearch } from "./utils/search.js";
 
-function renderTrackingInfo() {
-  const item = JSON.parse(sessionStorage.getItem("trackingItem"));
+let item = {};
 
+function loadTrackingInfo() {
+  item = JSON.parse(sessionStorage.getItem("trackingItem"));
   cart.updateCartQuantity(".js-cart-quantity");
+
+  (item) ? renderTrackingInfo(item) : window.location.href = "orders.html";
+}
+
+function renderTrackingInfo(item) {
   let trackingInfoHTML = "";
 
   trackingInfoHTML += `
@@ -46,4 +53,7 @@ function renderTrackingInfo() {
   document.querySelector(".js-order-tracking").innerHTML = trackingInfoHTML;
 }
 
-renderTrackingInfo();
+loadTrackingInfo();
+setupSearch((searchResults, query) => {
+  (searchResults.length > 0) ? window.location.href = `amazon.html?query=${query}` : renderTrackingInfo(item);
+})

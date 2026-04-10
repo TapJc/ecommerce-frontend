@@ -1,8 +1,10 @@
 import { cart } from "../data/cart.js";
 import { fetchProducts } from "../data/products.js";
+import { setupSearch, searchProducts } from "./utils/search.js";
 
 // Keep track of the active timeout ID between multiple “Add to Cart” clicks.
 let setTimeoutIds = {};
+let products = [];
 
 // Shows the "Added" confirmation message for 2 seconds.
 // Resets the timer if the button is clicked again before it disappears.
@@ -16,15 +18,24 @@ function showAddedMessage(productId) {
     addedMessage.classList.remove("show-added-to-cart");
   }, 2000);
 }
-
-async function renderProducts() {
-  const products = await fetchProducts();
-
+// Fetches products and renders either search results or all products based on the URL query.
+async function loadProducts() {
   cart.updateCartQuantity(".js-cart-quantity");
+  products = await fetchProducts();
+    
+  // Extract the search query from the URL if present (e.g. amazon.html?query=headphones)
+  const params = new URLSearchParams(window.location.search);
+  const query = params.get("query");
 
+  // If a query exists, render matching search results, otherwise render all products
+  (query) ? renderProducts(await searchProducts(query)) : renderProducts(products);
+
+}
+
+function renderProducts(products) {
   let productHTML = "";
 
-  products.forEach((product) => {
+  products.forEach(product => {
     productHTML += ` 
           <div class="product-container">
             <div class="product-image-container">
@@ -98,4 +109,7 @@ async function renderProducts() {
   });
 }
 
-renderProducts();
+loadProducts();
+setupSearch((searchResults) => {
+  (searchResults.length > 0) ? renderProducts(searchResults) : renderProducts(products);
+});
