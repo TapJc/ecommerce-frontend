@@ -29,6 +29,6 @@ The frontend is a multi-page, dynamic web application built with vanilla JavaScr
 4. Once the backend is running, open the frontend repository in VS Code and launch it using the Live Server extension. Right-click the amazon.html file and select Open with Live Server. 
 5. The application should now be fully functional in your browser, with the frontend communicating with the Spring Boot backend at `http://localhost:8080/h2-console` or the address shown in your terminal.
 
-🤖 **Backend Repository:**  
+🤖 **Backend Repository**  
 ---
 👉 [E-Commerce Backend](https://github.com/TapJc/ecommerce-backend)
