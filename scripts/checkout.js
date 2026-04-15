@@ -2,6 +2,10 @@ import { renderOrderSummary } from "./checkout/orderSummary.js";
 import { renderPaymentSummary } from "./checkout/paymentSummary.js";
 import { renderCheckoutHeader } from "./checkout/checkoutHeader.js";
 
-renderCheckoutHeader();
-renderOrderSummary();
-renderPaymentSummary();
+export function renderCheckoutPage() {
+	renderCheckoutHeader();
+	renderOrderSummary();
+	renderPaymentSummary();
+};
+
+renderCheckoutPage();

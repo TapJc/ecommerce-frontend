@@ -2,7 +2,9 @@ import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 import { cart } from "../../data/cart.js";
 import { getProduct } from "../../data/products.js";
 import { getDeliveryOption, calculateDeliveryDate } from "../../data/deliveryOptions.js";
+import { renderCheckoutPage } from "../checkout.js";
 import { formatCurrency } from "../utils/money.js";
+import { closePopup } from "../utils/popup.js";
 
 export async function renderPaymentSummary() {
   let productPriceCents = 0;
@@ -66,11 +68,6 @@ export async function renderPaymentSummary() {
           <button class="place-order-button button-primary js-place-order">
             Place your order
           </button>
-
-          <div class="order-placed-message js-order-placed-message"> 
-            <img src="images/icons/checkmark.png">
-            Order Confirmed
-          </div>
   `;
 
   document.querySelector(".js-payment-summary").innerHTML = paymentSummaryHTML;
@@ -119,13 +116,11 @@ export async function renderPaymentSummary() {
           if (!itemResponse.ok) throw new Error(`Order item failed: ${itemResponse.status}`);
         }));
 
-        const orderPlacedMessage = document.querySelector(".js-order-placed-message");
-        orderPlacedMessage.classList.add("show-order-placed-message");
+        document.querySelector(".js-popup-container").classList.add("visible");
+        document.querySelector(".js-overlay").classList.add("visible");
 
-        setTimeout(() => {
-          orderPlacedMessage.classList.remove("show-order-placed-message");
-          window.location.href = "amazon.html";
-        }, 2000);
+        const popupMessage = document.querySelector(".js-popup-message");
+        popupMessage.innerHTML = `Thanks for placing your order. Your order number is <strong>#${(order.id).slice(0,8)}</strong>.`;
 
         cart.clearCart();
       } catch (error) {
@@ -133,5 +128,18 @@ export async function renderPaymentSummary() {
         // Only re-enable the button if the order failed so the user can retry
         button.disabled = false;
       }
+  });
+
+  document.querySelector(".js-popup-button").addEventListener("click", () => {
+    window.location.href = "orders.html";
+  });
+
+  document.querySelector(".js-close-popup-icon").addEventListener("click", () => {
+    closePopup();
+    renderCheckoutPage();
+  });
+  document.querySelector(".js-overlay").addEventListener("click", () => {
+    closePopup();
+    renderCheckoutPage();
   });
 }

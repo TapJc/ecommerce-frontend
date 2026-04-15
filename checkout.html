@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="styles/shared/general.css">
     <link rel="stylesheet" href="styles/pages/checkout/checkout-header.css">
     <link rel="stylesheet" href="styles/pages/checkout/checkout.css">
+    <link rel="stylesheet" href="styles/shared/popup.css">
   </head>
   <body>
     <div class="checkout-header">
@@ -34,6 +35,16 @@
           <img src="images/icons/checkout-lock-icon.png">
         </div>
       </div>
+    </div>
+
+    <div class="overlay js-overlay"></div>
+
+    <div class="popup-container js-popup-container">
+      <img class="confirmed-popup-icon" src="images/icons/order-confirmed.png">
+      <img class="close-popup-icon js-close-popup-icon" src="images/icons/cancel-icon.png">
+      <div class="popup-title">Your Order is Confirmed!</div>
+      <div class="popup-message js-popup-message"></div>
+      <button class="popup-button button-primary js-popup-button">Track Order</button>
     </div>
 
     <div class="main">

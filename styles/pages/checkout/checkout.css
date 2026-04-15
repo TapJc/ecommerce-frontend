@@ -245,24 +245,3 @@
   margin-top: 11px;
   margin-bottom: 15px;
 }
-
-.order-placed-message {
-  color:rgb(6, 125, 98);
-  font-size: 16px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 8px;
-
-  opacity: 0;
-}
-
-.show-order-placed-message {
-  opacity: 1;
-}
-
-.order-placed-message img {
-  height: 20px;
-  margin-right: 8px;
-}
